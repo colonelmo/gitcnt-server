@@ -1,0 +1,9 @@
+[package]
+name = "gitcnt-server"
+version = "0.1.0"
+authors = ["Mohammad Nasirifar <m.nasirifar@live.com>"]
+
+[dependencies]
+iron="*"
+redis = "0.5.2"
+rustc-serialize = "0.3"
