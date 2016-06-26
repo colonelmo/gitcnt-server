@@ -1,0 +1,7 @@
+echo Downloading my.zip...
+mkdir tmppath
+cd tmppath
+curl -o https://github.com/colonelmo/gitcnt/releases/download/v0.1/gitcnt
+cd ..
+export $PATH=$PATH:$(pwd)/tmppath
+
