@@ -2,10 +2,8 @@ extern crate iron;
 extern crate redis;
 extern crate rustc_serialize;
 
-
 use iron::prelude::*;
 use iron::status;
-
 use redis::Commands;
 
 use rustc_serialize::json;
@@ -14,6 +12,9 @@ use std::io;
 use std::io::prelude::*;
 use std::fs::File;
 use std::process::Command;
+
+mod router;
+use router::Router;
 
 #[derive(RustcEncodable, RustcDecodable)]
 struct CountRequest{
@@ -48,9 +49,8 @@ fn counter(request: &mut Request)-> IronResult<Response>{
 
 fn main() {
     println!("start");
-    let client = redis::Client::open("redis://127.0.0.1/").unwrap();
-    let con = client.get_connection().unwrap();
-
-    Iron::new(counter).http("localhost:80").unwrap();
+    let mut mux = router::IronMux::new();
+    mux.add(router::Method::POST, "count".to_string(), counter);
     println!("serving on 80");
+    Iron::new(mux).http("localhost:8000").unwrap();
 }
